@@ -32,7 +32,7 @@ _SIDD_UNIT_MASK                // mask only: return byte/word mask*/
 inline size_t strlen_sse4(const char* str)
 {
 	size_t length = 0;
-	int res;
+	int res = 0;
 	//align to 16 bytes
 	while (((size_t(str+length)) & (sizeof(__m128i) - 1)) != 0)
 	{
@@ -47,9 +47,9 @@ inline size_t strlen_sse4(const char* str)
 		if ((res = _mm_cmpistri(z128, data, _SIDD_CMP_EQUAL_EACH)) != 16)
 			break;
 	}
-	while (str[length])
-		length++;
-	return length;
+	/*while (str[length])
+		length++;*/
+	return length + res;
 }
 
 #define _DISABLE_ASM_BSF
